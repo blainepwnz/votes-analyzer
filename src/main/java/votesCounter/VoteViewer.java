@@ -12,9 +12,9 @@ public class VoteViewer {
     public String showData(Map<Integer, Video> videoMap) {
         StringBuilder sb = new StringBuilder();
         sb.append("Pages parsed :");
+        sb.append(VoteGetter.page);
         sb.append("<br />");
         sb.append("Updated every minute");
-        sb.append(VoteGetter.page);
         sb.append("<br />");
         sb.append("<br />");
         for (int i = 1; i < 23; i++) {
