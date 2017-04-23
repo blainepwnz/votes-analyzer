@@ -12,6 +12,7 @@ import java.util.Set;
 
 public class VoteGetter {
     public static int COUNT_PER_ITERATION = 100;
+//    public static int MAX_PAGE_COUNT = 400;
     public static int MAX_PAGE_COUNT = 6390;
     private VotesParser parser = new VotesParser();
     private OkHttpClient client = new OkHttpClient();
@@ -20,7 +21,6 @@ public class VoteGetter {
 
 
     public Set<Vote> getVotes(int offset) {
-        votes = new HashSet<>();
         CounterThread[] counterThreads = new CounterThread[3];
         for (int i = 0; i < counterThreads.length; i++) {
             counterThreads[i] = new CounterThread(i + offset);
@@ -33,6 +33,7 @@ public class VoteGetter {
                 e.printStackTrace();
             }
         }
+        page = COUNT_PER_ITERATION+offset;
         return votes;
     }
 

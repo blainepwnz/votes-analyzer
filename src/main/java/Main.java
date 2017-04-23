@@ -2,7 +2,6 @@ import entity.Video;
 import entity.Vote;
 import votesCounter.VoteGetter;
 import votesCounter.VoteViewer;
-import votesCounter.VotesDivider;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,14 +19,26 @@ public class Main {
         port(Integer.valueOf(System.getenv("PORT")));
 //        port(8080);
         staticFileLocation("/public");
+        initVoteMap();
         get("/", (request, response) -> {
             return mVoteViewer.showData(mVideoMap);
         });
-        VoteGetter voteGetter = new VoteGetter();
-        for (int i = 0; i < 1000; i += VoteGetter.COUNT_PER_ITERATION) {
+        for (int i = 0; i < VoteGetter.MAX_PAGE_COUNT - VoteGetter.COUNT_PER_ITERATION; i += VoteGetter.COUNT_PER_ITERATION) {
+            VoteGetter voteGetter = new VoteGetter();
             Set<Vote> votes = voteGetter.getVotes(i);
-            VotesDivider divider = new VotesDivider(votes);
-            mVideoMap.putAll(divider.divideVotes());
+            appendSet(votes);
+        }
+    }
+
+    private static void initVoteMap() {
+        for (int i = 1; i < 23; i++) {
+            mVideoMap.put(i, new Video(i));
+        }
+    }
+
+    private static void appendSet(Set<Vote> set) {
+        for (Vote vote : set) {
+            mVideoMap.get(vote.getVideo()).addVoter(vote);
         }
     }
 
