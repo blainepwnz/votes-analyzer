@@ -12,17 +12,13 @@ public class VoteViewer {
     public String showData(Map<Integer, Video> videoMap) {
         StringBuilder sb = new StringBuilder();
         sb.append("Pages parsed :");
+        sb.append("<br />");
+        sb.append("Updated every minute");
         sb.append(VoteGetter.page);
-        sb.append("/");
-        sb.append("6390");
         sb.append("<br />");
         sb.append("<br />");
-        if (videoMap.isEmpty()) {
-            sb.append("Loading....");
-            return sb.toString();
-        }
         for (int i = 1; i < 23; i++) {
-            int votesSum=0;
+            int votesSum = 0;
             Video current = videoMap.get(i);
             sb.append("Video #");
             sb.append(i);
@@ -34,7 +30,7 @@ public class VoteViewer {
                     .append(" ")
                     .append(votesCount)
                     .append("<br />");
-                votesSum+=votesCount;
+                votesSum += votesCount;
             }
 
             sb.append("In sum= ")

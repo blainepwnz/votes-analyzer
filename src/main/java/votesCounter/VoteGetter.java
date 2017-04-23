@@ -12,8 +12,7 @@ import java.util.Set;
 
 public class VoteGetter {
     public static int COUNT_PER_ITERATION = 100;
-//    public static int MAX_PAGE_COUNT = 400;
-    public static int MAX_PAGE_COUNT = 6390;
+    public static boolean FINISHED_PARSING = false;
     private VotesParser parser = new VotesParser();
     private OkHttpClient client = new OkHttpClient();
     private Set<Vote> votes = new HashSet<>();
@@ -33,7 +32,6 @@ public class VoteGetter {
                 e.printStackTrace();
             }
         }
-        page = COUNT_PER_ITERATION+offset;
         return votes;
     }
 
@@ -47,7 +45,9 @@ public class VoteGetter {
 
         @Override
         public void run() {
-            for (int i = startingIndex; i < 100 + startingIndex && i < MAX_PAGE_COUNT; i += 3) {
+            for (int i = startingIndex; i < 100 + startingIndex; i += 3) {
+                if(FINISHED_PARSING)
+                    return;
                 String rawResponse = getNextResponse(i);
                 if (rawResponse == null) {
                     i -= 3;
