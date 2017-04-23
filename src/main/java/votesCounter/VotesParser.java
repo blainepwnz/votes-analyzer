@@ -15,7 +15,7 @@ import java.util.HashSet;
  */
 public class VotesParser {
     private static long mFinishTimestamp;
-    private static long mFirstItemTimestamp;
+    public static long mFirstItemTimestamp;
 
     public HashSet<Vote> parseVotes(String raw) {
         HashSet<Vote> votes = new HashSet<>();
@@ -43,11 +43,10 @@ public class VotesParser {
         if (mFirstItemTimestamp == 0) {
             mFirstItemTimestamp = voteTimeStamp;
         }
-        if (getTimestampForEvent(date, hours, minutes, seconds) == mFinishTimestamp) {
+        if (voteTimeStamp == mFinishTimestamp) {
             System.out.println("finished");
             VoteGetter.FINISHED_PARSING = true;
             mFinishTimestamp = mFirstItemTimestamp;
-            mFirstItemTimestamp = 0;
         }
         return new Vote(country, city, video, date, hours, minutes, seconds);
     }

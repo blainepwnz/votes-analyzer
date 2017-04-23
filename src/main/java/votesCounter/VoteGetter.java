@@ -19,8 +19,8 @@ public class VoteGetter {
     public static int page = 0;
 
 
-    public Set<Vote> getVotes(int offset) {
-        CounterThread[] counterThreads = new CounterThread[3];
+    public Set<Vote> getVotes(int offset,int threadCount) {
+        CounterThread[] counterThreads = new CounterThread[threadCount];
         for (int i = 0; i < counterThreads.length; i++) {
             counterThreads[i] = new CounterThread(i + offset);
             counterThreads[i].start();

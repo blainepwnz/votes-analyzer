@@ -14,6 +14,7 @@ public class Main {
 
     private static Map<Integer, Video> mVideoMap = new HashMap<>();
     private static VoteViewer mVoteViewer = new VoteViewer();
+    private static int mThreadCount;
 
     public static void main(String[] args) throws Exception {
 
@@ -26,16 +27,19 @@ public class Main {
         });
         while (true) {
             VoteGetter.FINISHED_PARSING = false;
+            VotesParser.mFirstItemTimestamp = 0;
             for (int i=0; !VoteGetter.FINISHED_PARSING; i += VoteGetter.COUNT_PER_ITERATION) {
                 VoteGetter voteGetter = new VoteGetter();
-                Set<Vote> votes = voteGetter.getVotes(i);
+                Set<Vote> votes = voteGetter.getVotes(i,mThreadCount);
                 appendSet(votes);
             }
             Thread.sleep(60000);
+            mThreadCount=1;
         }
     }
 
     private static void initVoteMap() {
+        mThreadCount=3;
         VotesParser.initTimeStamp();
         for (int i = 1; i < 23; i++) {
             mVideoMap.put(i, new Video(i));
