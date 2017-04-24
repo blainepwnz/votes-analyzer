@@ -1,33 +1,38 @@
 package entity;
 
-import java.util.ArrayList;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Andrew on 23.04.2017.
  */
 public class Video {
+    @SerializedName("id")
     private Integer id;
-    private HashMap<String,List<Integer>> dataMap = new HashMap<>();
+    @SerializedName("dataMap")
+    private Map<Integer, Map<String, Integer>> dataMap = new HashMap<>();
 
     public Video(Integer id) {
         this.id = id;
     }
 
-    public HashMap<String, List<Integer>> getDataMap() {
+    public Map<Integer, Map<String, Integer>> getDataMap() {
         return dataMap;
     }
 
-    public void addVoter(Vote vote){
-        dataMap.computeIfAbsent(vote.getCountry(), k -> new ArrayList<>()).add(vote.getDate());
+    public void addVoter(Vote vote) {
+        Map<String, Integer> countryVotesMap = dataMap.computeIfAbsent(vote.getDate(), integer -> new HashMap<>());
+        String country = vote.getCountry();
+        Integer votesCount = countryVotesMap.get(country);
+        if (votesCount == null)
+            countryVotesMap.put(country, 1);
+        else
+            countryVotesMap.put(country, ++votesCount);
     }
 
-    @Override
-    public String toString() {
-        return "Video{" +
-                "id=" + id +
-                ", dataMap=" + dataMap +
-                '}';
+    public Integer getId() {
+        return id;
     }
 }

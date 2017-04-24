@@ -6,16 +6,12 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashSet;
 
 /**
  * Created by Andrew on 23.04.2017.
  */
 public class VotesParser {
-    private static long mFinishTimestamp;
-    public static long mFirstItemTimestamp;
 
     public HashSet<Vote> parseVotes(String raw) {
         HashSet<Vote> votes = new HashSet<>();
@@ -39,30 +35,8 @@ public class VotesParser {
             country = "Unknown";
         String city = voteElement.getElementsByClass("city").text();
         int video = Integer.valueOf(voteElement.getElementsByClass("answers").text().substring(7));
-        long voteTimeStamp = getTimestampForEvent(date, hours, minutes, seconds);
-        if (mFirstItemTimestamp == 0) {
-            mFirstItemTimestamp = voteTimeStamp;
-        }
-        if (voteTimeStamp == mFinishTimestamp) {
-            System.out.println("finished");
-            VoteGetter.FINISHED_PARSING = true;
-            mFinishTimestamp = mFirstItemTimestamp;
-        }
         return new Vote(country, city, video, date, hours, minutes, seconds);
     }
 
-    public static void initTimeStamp() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2017, Calendar.APRIL, 18, 20, 55, 44);
-        calendar.clear(Calendar.MILLISECOND);
-        mFinishTimestamp = calendar.getTimeInMillis();
-    }
-
-    private long getTimestampForEvent(int day, int hours, int minutes, int seconds) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2017, Calendar.APRIL, day, hours, minutes, seconds);
-        calendar.clear(Calendar.MILLISECOND);
-        return calendar.getTimeInMillis();
-    }
 
 }
