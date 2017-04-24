@@ -1,5 +1,6 @@
 package voteDisplay;
 
+import app.VotesResultApp;
 import entity.Video;
 
 import java.util.*;
@@ -15,7 +16,9 @@ public class VideoDataPrinter extends BaseViewer {
 
     public String showDataForVideo(Video video) {
         StringBuilder sb = new StringBuilder();
-        sb.append("<a href=\"https://votes-analyzer.herokuapp.com/\">Back</a>")
+        sb.append("<a href=\"")
+            .append(VotesResultApp.mBaseUrl)
+            .append("\">Back</a>")
             .append("<br/>")
             .append("<br/>");
         sb.append("Info for video # ")

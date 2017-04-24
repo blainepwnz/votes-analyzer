@@ -6,7 +6,9 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -15,14 +17,14 @@ public class VoteGetter {
     public static boolean FINISHED_PARSING = false;
     private VotesParser parser = new VotesParser();
     private OkHttpClient client = new OkHttpClient();
-    private Set<Vote> votes = new HashSet<>();
+    private List<Vote> votes = new ArrayList<>(2000);
     public static int page = 0;
 
 
-    public Set<Vote> getVotes(int offset,int threadCount) {
+    public List<Vote> getVotes(int offset,int threadCount) {
         CounterThread[] counterThreads = new CounterThread[threadCount];
         for (int i = 0; i < counterThreads.length; i++) {
-            counterThreads[i] = new CounterThread(i + offset);
+            counterThreads[i] = new CounterThread(i + offset + 1);
             counterThreads[i].start();
         }
         for (CounterThread counterThread : counterThreads) {
@@ -32,6 +34,7 @@ public class VoteGetter {
                 e.printStackTrace();
             }
         }
+        System.out.println("page nr "+page);
         return votes;
     }
 
@@ -45,12 +48,14 @@ public class VoteGetter {
 
         @Override
         public void run() {
-            for (int i = startingIndex; i < 100 + startingIndex; i += 3) {
+            int endingIndex = (startingIndex/10)*10;
+            for (int i = startingIndex; i < COUNT_PER_ITERATION + endingIndex + 1; i += VoteSniffer.mThreadCount) {
                 if(FINISHED_PARSING)
                     return;
                 String rawResponse = getNextResponse(i);
                 if (rawResponse == null) {
-                    i -= 3;
+                    System.out.println("error");
+                    i -= VoteSniffer.mThreadCount;
                     continue;
                 }
                 page = i;

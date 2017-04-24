@@ -15,7 +15,7 @@ import java.util.Map;
  */
 public class ParsedVotesProvider {
     private OkHttpClient mClient = new OkHttpClient();
-    private String mGistUrl = "https://gist.githubusercontent.com/blainepwnz/35c5f2ea88c097ab0c57996b54987693/raw/2d8cbba22dc18a0bdf6760122f2a7f13c113dc51/data";
+    private String mGistUrl = "https://gist.githubusercontent.com/blainepwnz/550488bec81a256e6a7ab7d995f19082/raw/388d8e3697b2c10e1bb570e132a56c661545c7e5/gistfile1.txt";
     private Gson mGson = new Gson();
 
 

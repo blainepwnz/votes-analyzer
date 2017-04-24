@@ -1,5 +1,6 @@
 package voteDisplay;
 
+import app.VotesResultApp;
 import entity.Video;
 
 import java.util.Map;
@@ -15,7 +16,8 @@ public class VoteViewer extends BaseViewer {
         sb.append("Videos:");
         addNextLine(sb);
         for (int i = 1; i < 23; i++) {
-            sb.append("<a href=\"https://votes-analyzer.herokuapp.com/")
+            sb.append("<a href=\"")
+                .append(VotesResultApp.mBaseUrl)
                 .append(i)
                 .append("\">Video #")
                 .append(i)

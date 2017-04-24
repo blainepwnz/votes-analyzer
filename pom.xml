@@ -65,7 +65,7 @@
           <appendAssemblyId>false</appendAssemblyId>
           <archive>
             <manifest>
-              <mainClass>Main</mainClass>
+              <mainClass>app.VotesResultApp</mainClass>
             </manifest>
           </archive>
         </configuration>

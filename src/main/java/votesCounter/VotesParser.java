@@ -6,15 +6,15 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * Created by Andrew on 23.04.2017.
  */
 public class VotesParser {
 
-    public HashSet<Vote> parseVotes(String raw) {
-        HashSet<Vote> votes = new HashSet<>();
+    public List<Vote> parseVotes(String raw) {
+        List<Vote> votes = new ArrayList<>(20);
         Document html = Jsoup.parse(raw);
         Element table = html.body().getElementsByTag("table").first();
         Elements trElements = table.getElementsByTag("tr");
