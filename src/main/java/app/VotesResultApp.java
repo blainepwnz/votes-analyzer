@@ -20,6 +20,7 @@ public class VotesResultApp {
 
     public static void main(String[] args) throws Exception {
         String port = System.getenv("PORT");
+        //define base url and port
         if (port == null){
             port(8080);
             mBaseUrl = "http://localhost:8080/";
@@ -28,6 +29,7 @@ public class VotesResultApp {
             mBaseUrl ="https://votes-analyzer.herokuapp.com/";
             port(Integer.valueOf(port));
         }
+        //used to get data from saved git gist
         ParsedVotesProvider parsedVotesProvider = new ParsedVotesProvider();
         mVideoMap = parsedVotesProvider.getVideoMap();
         staticFileLocation("/public");

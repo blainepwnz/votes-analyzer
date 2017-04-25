@@ -5,15 +5,17 @@ import entity.Video;
 
 import java.util.*;
 
-/**
- * Created by Andrew on 24.04.2017.
- */
 public class VideoDataPrinter extends BaseViewer {
 
 
+    //global votes counter
     private int mVotesCount;
 
 
+    /**
+     * Shows data for every country
+     * @param video video data for parsing
+     */
     public String showDataForVideo(Video video) {
         StringBuilder sb = new StringBuilder();
         sb.append("<a href=\"")
@@ -49,8 +51,10 @@ public class VideoDataPrinter extends BaseViewer {
         addNextLine(sb);
         makeItalic(sb, date + " April");
         addNextLine(sb);
+        //sum counter used to append it every iteration with country
         int sum = 0;
         for (String country : countyVotesMap.keySet()) {
+            //making bold moldova and russia
             if (country.contains("Moldova") || country.contains("Russia"))
                 makeBold(sb, country);
             else
@@ -67,6 +71,7 @@ public class VideoDataPrinter extends BaseViewer {
         addNextLine(sb);
         sb.append("------------------------------------------");
         addNextLine(sb);
+        //append sum to global votes counter
         mVotesCount += sum;
         return sb;
     }
